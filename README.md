@@ -1,4 +1,4 @@
-# Hash API  
+# API  
 Cryptographic API and Hash API development.
 
 ## Features  
