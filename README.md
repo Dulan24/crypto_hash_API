@@ -14,7 +14,7 @@ Cryptographic API and Hash API development.
 ### 1. Clone the Repository  
 ```sh
 git clone https://github.com/Dulan24/crypto_hash_API.git
-cd hash-api
+cd crypto_hash_API
 ```
 ### 2. Install required 
 ```sh
