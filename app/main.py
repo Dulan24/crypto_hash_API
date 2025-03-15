@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routes import hash_generation_route
+from app.routes import hash_generation_route,hash_verification_route
 
 app = FastAPI(
     title="Cybersecurity API",
@@ -8,6 +8,7 @@ app = FastAPI(
 )
 
 app.include_router(hash_generation_route.router)
+app.include_router(hash_verification_route.router)
 
 # Root Endpoint
 @app.get("/")
