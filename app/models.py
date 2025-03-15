@@ -19,3 +19,13 @@ class KeyRequest(BaseModel):
 class KeyResponse(BaseModel):
     key_id: str
     key_value: str
+
+# DTO for encrypt request
+class EncryptRequest(BaseModel):
+    key_id: str
+    plaintext: str
+    algorithm: str
+
+# DTO for encrypt response
+class EncryptResponse(BaseModel):
+    ciphertext: str
