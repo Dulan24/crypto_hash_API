@@ -11,9 +11,9 @@ def generate_key(request: KeyRequest):
     key_id = str(uuid.uuid4())  # Generate a unique key ID
     
     if request.key_type.upper() == "AES":
-        key_value = generate_aes_key(request.key_size)
+        key_value = generate_aes_key(request.key_size, key_id)
     elif request.key_type.upper() == "RSA":
-        key_value = generate_rsa_key(request.key_size)
+        key_value = generate_rsa_key(request.key_size, key_id)
     else:
         raise HTTPException(status_code=400, detail="Unsupported key type. Supported types: AES, RSA.")
     
