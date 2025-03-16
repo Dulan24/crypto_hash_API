@@ -20,3 +20,8 @@ cd crypto_hash_API
 ```sh
 pip install -r requirements.txt
 ```
+
+### 3. Running command
+```
+uvicorn app.main:app --reload
+```
