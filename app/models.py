@@ -9,3 +9,23 @@ class HashGenRequest(BaseModel):
 class HashGenResponse(BaseModel):
     hash_value: str
     algorithm: str
+
+# DTO for key generation request
+class KeyRequest(BaseModel):
+    key_type: str
+    key_size: int
+
+# DTO for key generation response
+class KeyResponse(BaseModel):
+    key_id: str
+    key_value: str
+
+# DTO for encrypt request
+class EncryptRequest(BaseModel):
+    key_id: str
+    plaintext: str
+    algorithm: str
+
+# DTO for encrypt response
+class EncryptResponse(BaseModel):
+    ciphertext: str

@@ -1,3 +1,6 @@
 /venv_api
 /__pycache__
 /tests
+__pycache__/
+*.pyc
+*.pyo
