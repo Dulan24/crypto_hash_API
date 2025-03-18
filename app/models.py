@@ -29,3 +29,12 @@ class EncryptRequest(BaseModel):
 # DTO for encrypt response
 class EncryptResponse(BaseModel):
     ciphertext: str
+
+class DecryptRequest(BaseModel):
+    key_id: str
+    ciphertext: str
+    algorithm: str
+
+# DTO for decrypt response
+class DecryptResponse(BaseModel):
+    plaintext: str
