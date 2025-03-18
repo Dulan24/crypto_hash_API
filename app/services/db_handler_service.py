@@ -76,19 +76,6 @@ def get_db_connection():
         port=DB_PORT
     )
 
-def store_key_in_db(key_id, key_value, algorithm):
-    """Store the generated key in the PostgreSQL database."""
-    conn = get_db_connection()
-    cur = conn.cursor()
-
-    cur.execute("""
-        INSERT INTO encryption_keys (key_id, key_value, algorithm)
-        VALUES (%s, %s, %s);
-    """, (key_id, key_value, algorithm))
-
-    conn.commit()
-    cur.close()
-    conn.close()
 
 def get_private_key_from_db(key_id: str):
     """Retrieves the encryption key from the database."""
