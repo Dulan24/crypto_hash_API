@@ -4,14 +4,14 @@ import os
 from cryptography.hazmat.primitives.asymmetric import rsa, ec
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.backends import default_backend
-from app.services.db_handler_service import store_key_in_db
+from app.services.db_handler_service import store_aes_key_in_db, store_rsa_keys_in_db
 
 
 def generate_aes_key(key_size: int, key_id: str):
     if key_size not in [128, 192, 256]:
         raise HTTPException(status_code=400, detail="Invalid AES key size. Choose 128, 192, or 256 bits.")
     key = os.urandom(key_size // 8)
-    store_key_in_db(key_id, base64.b64encode(key).decode(), "AES")
+    store_aes_key_in_db(key_id, base64.b64encode(key).decode())
     return base64.b64encode(key).decode()
 
 def generate_rsa_key(key_size: int , key_id: str):
@@ -32,7 +32,7 @@ def generate_rsa_key(key_size: int , key_id: str):
         encoding=serialization.Encoding.PEM,
         format=serialization.PublicFormat.SubjectPublicKeyInfo
     )
-    store_key_in_db(key_id, base64.b64encode(private_pem).decode(), "RSA")
+    store_rsa_keys_in_db(key_id, base64.b64encode(private_pem).decode(), base64.b64encode(public_pem).decode())
     return base64.b64encode(public_pem).decode()
 
 def generate_ec_key(curve: str):

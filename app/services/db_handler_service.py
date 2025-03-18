@@ -49,7 +49,8 @@ def create_table():
             cur.execute("""
                 CREATE TABLE encryption_keys (
                     key_id UUID PRIMARY KEY,
-                    key_value TEXT NOT NULL,
+                    private_key TEXT,  -- Base64 encoded private key (for RSA only)
+                    public_key TEXT,   -- Base64 encoded public key (for RSA)
                     algorithm TEXT CHECK (algorithm IN ('AES', 'RSA')) NOT NULL,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );
@@ -89,11 +90,11 @@ def store_key_in_db(key_id, key_value, algorithm):
     cur.close()
     conn.close()
 
-def get_key_from_db(key_id: str):
+def get_private_key_from_db(key_id: str):
     """Retrieves the encryption key from the database."""
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT key_value, algorithm FROM encryption_keys WHERE key_id = %s;", (key_id,))
+    cur.execute("SELECT private_key, algorithm FROM encryption_keys WHERE key_id = %s;", (key_id,))
     row = cur.fetchone()
     cur.close()
     conn.close()
@@ -101,3 +102,50 @@ def get_key_from_db(key_id: str):
     if row:
         return base64.b64decode(row[0]), row[1]  
     return None, None
+
+def get_public_key_from_db(key_id: str):
+    """Retrieves the encryption key from the database."""
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT public_key, algorithm FROM encryption_keys WHERE key_id = %s;", (key_id,))
+    row = cur.fetchone()
+    cur.close()
+    conn.close()
+
+    if row:
+        return base64.b64decode(row[0]), row[1]  
+    return None, None
+
+
+def store_rsa_keys_in_db(key_id, private_key, public_key):
+    """Stores RSA private and public keys in the PostgreSQL database."""
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        INSERT INTO encryption_keys (key_id, private_key, public_key, algorithm)
+        VALUES (%s, %s, %s, 'RSA')
+        ON CONFLICT (key_id) DO UPDATE 
+        SET private_key = EXCLUDED.private_key, 
+            public_key = EXCLUDED.public_key;
+    """, (key_id, private_key, public_key))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+def store_aes_key_in_db(key_id, aes_key):
+    """Stores the AES encryption key in the database."""
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        INSERT INTO encryption_keys (key_id, private_key, algorithm)
+        VALUES (%s, %s, 'AES')
+        ON CONFLICT (key_id) DO UPDATE 
+        SET private_key = EXCLUDED.private_key;
+    """, (key_id, aes_key))
+
+    conn.commit()
+    cur.close()
+    conn.close()
