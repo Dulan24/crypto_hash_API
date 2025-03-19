@@ -21,7 +21,10 @@ cd crypto_hash_API
 pip install -r requirements.txt
 ```
 
-### 3. Running command
+### 3. Install PostgreSQL
+After installing edit the ```config.py``` code to set the your variables.
+
+### 4. Running command
 ```
 uvicorn app.main:app --reload
 ```

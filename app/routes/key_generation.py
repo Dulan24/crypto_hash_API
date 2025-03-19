@@ -6,7 +6,7 @@ from app.services.key_generation_service import generate_aes_key, generate_rsa_k
 
 router = APIRouter()
 
-@router.post("/generate_key", response_model=KeyResponse)
+@router.post("/generate-key", response_model=KeyResponse)
 def generate_key(request: KeyRequest):
     key_id = str(uuid.uuid4())  # Generate a unique key ID
     

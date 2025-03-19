@@ -1,12 +1,13 @@
 import psycopg2
 import base64
+from app.config import DataBase_HOST, DataBase_NAME, DataBase_PASSWORD, DataBase_PORT, DataBase_USER
 
 # Database Credentials
-DB_NAME = "key_db"
-DB_USER = "postgres"
-DB_PASSWORD = "1234phs"
-DB_HOST = "localhost"
-DB_PORT = "5432"
+DB_NAME = DataBase_NAME
+DB_USER = DataBase_USER
+DB_PASSWORD = DataBase_PASSWORD
+DB_HOST = DataBase_HOST
+DB_PORT = DataBase_PORT
 
 def create_database():
     """Create the PostgreSQL database if it doesn't exist."""
