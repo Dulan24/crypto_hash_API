@@ -38,3 +38,13 @@ class DecryptRequest(BaseModel):
 # DTO for decrypt response
 class DecryptResponse(BaseModel):
     plaintext: str
+# DTO for hash verification request
+class HashVerifyRequest(BaseModel):
+    data: str
+    hash_value: str
+    algorithm: str
+
+# DTO for hash verification response
+class HashVerifyResponse(BaseModel):
+    is_valid: bool
+    message: str
