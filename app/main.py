@@ -3,7 +3,7 @@ from app.routes import hash_generation_route, hash_verification_route, key_gener
 from app.services.db_handler_service import create_database, create_table, get_db_connection
 
 print("Setting up the database...")
-create_database()
+# create_database()
 create_table()
 get_db_connection()
 print("Database setup complete.")
